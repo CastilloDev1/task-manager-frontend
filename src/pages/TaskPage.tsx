@@ -44,14 +44,15 @@ export default function TasksPage() {
     return (
         <section>
             <h2>Mis tareas</h2>
-            <form onSubmit={handleSubmitNewTask}>
+            <form className="task-form" onSubmit={handleSubmitNewTask}>
                 <input
+                    className="task-input"
                     type="text"
                     placeholder="Escribe una nueva tarea"
                     value={newTaskTitle}
                     onChange={(event) => setNewTaskTitle(event.target.value)}
                 />
-                <button type="submit">Agregar</button>
+                <button className="task-button" type="submit">Agregar</button>
             </form>
             <TaskList 
                 tasks={tasks} 

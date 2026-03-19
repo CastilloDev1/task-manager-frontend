@@ -10,9 +10,15 @@ type TaskItemProps = {
 
 export default function TaskItem({ task, onToggleCompleted, onDeleteTask }: TaskItemProps) {
     return (
-        <li>
-            <span onClick={() => onToggleCompleted(task.id)}>{task.title} {task.completed ? "✅" : "❌"}</span>
-            <button onClick={() => onDeleteTask(task.id) } type="button">Eliminar</button>
+            <li className="task-item">
+                <span 
+                    className={`task-content ${task.completed ? "completed" : ""}`} 
+                    onClick={() => onToggleCompleted(task.id)}
+                >
+                    {task.title} {task.completed ? "✅" : "❌"}
+                </span>
+
+            <button className="delete-button" onClick={() => onDeleteTask(task.id) } type="button">Eliminar</button>
         </li>
     )
 }

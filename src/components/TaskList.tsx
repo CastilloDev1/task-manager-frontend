@@ -9,7 +9,7 @@ type TaskListProps = {
 
 export default function TaskList( props: TaskListProps ) {
     return (
-        <ul>
+        <ul className="task-list">
             {props.tasks.map((task) => (
                 <TaskItem 
                     key={task.id} 
