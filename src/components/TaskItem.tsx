@@ -1,10 +1,18 @@
-import type { TaskProps } from "../types/task";
+import type { Task } from "../types/task";
 
-export default function TaskItem({ task }: TaskProps) {
+type TaskIdHandler = (id: number) => void;
+
+type TaskItemProps = {
+    task: Task;
+    onToggleCompleted: TaskIdHandler;
+    onDeleteTask: TaskIdHandler;
+}
+
+export default function TaskItem({ task, onToggleCompleted, onDeleteTask }: TaskItemProps) {
     return (
         <li>
-            <span>{task.title}</span>
-            <span>{task.completed ? "✅" : "❌"}</span>
+            <span onClick={() => onToggleCompleted(task.id)}>{task.title} {task.completed ? "✅" : "❌"}</span>
+            <button onClick={() => onDeleteTask(task.id) } type="button">Eliminar</button>
         </li>
     )
 }
