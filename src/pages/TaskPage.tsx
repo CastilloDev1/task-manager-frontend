@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import type { Task } from "../types/task";
 
@@ -8,9 +8,25 @@ const initialTasks: Task[] = [
     { id: 3, title: "Aplicar a trabajos", completed: false },
 ];
 
+const TASKS_STORAGE_KEY = "tasks-manager:tasks:v1";
+
 export default function TasksPage() {
-    const [ tasks, setTasks ] = useState<Task[]>(initialTasks);
+    const [ tasks, setTasks ] = useState<Task[]>(() => {
+        const savedTasks = localStorage.getItem(TASKS_STORAGE_KEY);
+        if(!savedTasks) return initialTasks;
+        
+        try {
+            return JSON.parse(savedTasks);
+        } catch {
+            return initialTasks;
+        }
+    });
+
     const [ newTaskTitle, setNewTaskTitle ] = useState("");
+
+    useEffect(()=>{
+        localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
+    }, [tasks]);
 
     function handleToggleCompleted( id: number): void {
         setTasks(
