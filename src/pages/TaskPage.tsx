@@ -62,13 +62,20 @@ export default function TasksPage() {
         if (filter === "completed") return task.completed;
         if (filter === "incomplete") return !task.completed;
         return true;
-    })
+    });
+
+    const completedTasks = tasks.filter( (task) => task.completed).length;
+    const totalTasks = tasks.length;
 
     return (
         <section>
 
             <h2>Mis tareas</h2>
 
+            <p className="tasks-summary">
+                Total tareas: <strong>{totalTasks}</strong> | 
+                Completadas: {" "} <strong>{completedTasks}</strong>
+            </p>
             <form className="task-form" onSubmit={handleSubmitNewTask}>
                 <input
                     className="task-input"
@@ -85,11 +92,15 @@ export default function TasksPage() {
                 <button type="button" onClick={()=> setFilter("completed")}>Completadas</button>
                 <button type="button" onClick={()=> setFilter("incomplete")}>Incompletas</button>
             </div>
-            <TaskList 
-                tasks={filteredTasks} 
-                onToggleCompleted={handleToggleCompleted} 
-                onDeleteTask={handleDeleteTask}
-            />
+            {filteredTasks.length === 0 ? (
+                <p className="empty-tasks">No hay tareas para este filtro</p>
+            ) : (
+                <TaskList 
+                    tasks={filteredTasks} 
+                    onToggleCompleted={handleToggleCompleted} 
+                    onDeleteTask={handleDeleteTask}
+                />
+            )}
         </section>
     )
 }

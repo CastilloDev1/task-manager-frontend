@@ -37,6 +37,11 @@ input {
     font-size: 28px;
 }
 
+.tasks-summary {
+    margin-bottom: 16px;
+    color: #4b5563;
+}
+
 .task-form {
     display: flex;
     gap: 12px;
@@ -71,6 +76,16 @@ input {
     border-radius: 8px;
     padding: 8px 12px;
     cursor: pointer;
+}
+
+.empty-tasks {
+    margin-bottom: 16px;
+    padding: 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    text-align: center;
+    color: #6b7280;
+    background-color: #f8fafc;
 }
 
 .task-list {
