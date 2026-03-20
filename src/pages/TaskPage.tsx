@@ -23,6 +23,7 @@ export default function TasksPage() {
     });
 
     const [ newTaskTitle, setNewTaskTitle ] = useState("");
+    const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
 
     useEffect(()=>{
         localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
@@ -57,9 +58,17 @@ export default function TasksPage() {
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     }
 
+    const filteredTasks = tasks.filter( (task) => {
+        if (filter === "completed") return task.completed;
+        if (filter === "incomplete") return !task.completed;
+        return true;
+    })
+
     return (
         <section>
+
             <h2>Mis tareas</h2>
+
             <form className="task-form" onSubmit={handleSubmitNewTask}>
                 <input
                     className="task-input"
@@ -70,8 +79,14 @@ export default function TasksPage() {
                 />
                 <button className="task-button" type="submit">Agregar</button>
             </form>
+
+            <div className="filters">
+                <button type="button" onClick={() => setFilter("all")}>Todas</button>
+                <button type="button" onClick={()=> setFilter("completed")}>Completadas</button>
+                <button type="button" onClick={()=> setFilter("incomplete")}>Incompletas</button>
+            </div>
             <TaskList 
-                tasks={tasks} 
+                tasks={filteredTasks} 
                 onToggleCompleted={handleToggleCompleted} 
                 onDeleteTask={handleDeleteTask}
             />

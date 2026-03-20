@@ -59,6 +59,20 @@ input {
     color: #ffffff;
 }
 
+.filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.filters button {
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
 .task-list {
     list-style: none;
     padding: 0;
