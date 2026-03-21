@@ -9,9 +9,63 @@ body {
     color: #1f2937;
 }
 
-button,
-input {
-    font: inherit;
+body.light-theme {
+    background-color: #f4f7fb;
+    color: #1f2937;
+}
+
+body.dark-theme {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+body.dark-theme .app-card {
+    background-color: #1f2937;
+    color: #f9fafb;
+}
+
+body.dark-theme .task-item {
+    background-color: #111827;
+    border-color: #374151;
+}
+
+body.dark-theme .task-input {
+    background-color: #111827;
+    color: #f9fafb;
+    border-color: #4b5563;
+}
+
+body.dark-theme .filters button {
+    background-color: #374151;
+    color: #f9fafb;
+    border-color: #4b5563;
+}
+
+body.dark-theme .empty-state {
+    background-color: #111827;
+    border-color: #4b5563;
+    color: #d1d5db;
+}
+
+body.dark-theme .task-summary {
+    color: #d1d5db;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.theme-button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    background-color: #2563eb;
+    color: white;
 }
 
 .app-container {
@@ -20,6 +74,14 @@ input {
     justify-content: center;
     align-items: center;
     padding: 40px 16px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .app-card {
