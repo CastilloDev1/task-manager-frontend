@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import type { Task } from "../types/task";
-import { getTasks, createTask } from "../services/taskService";
+import { getTasks, createTask, toggleTaskById } from "../services/taskService";
 
 export default function TasksPage() {
     const [ tasks, setTasks ] = useState<Task[]>([]);
@@ -30,15 +30,18 @@ export default function TasksPage() {
         void loadTasks();
     }, []);
 
-    function handleToggleCompleted( id: number): void {
-        setTasks(
-            tasks.map( task => (
-                task.id === id 
-                    ? { ...task, completed: !task.completed } 
-                    : task
+    async function handleToggleCompleted( id: number): Promise<void> {
+        try {
+            setErrorMessage("");
+            const updatedTask = await toggleTaskById(id);
+            setTasks( prevTasks =>
+                prevTasks.map( task => 
+                    task.id === id ? updatedTask : task
                 )
-            )
-        )
+            );
+        } catch (error) {
+            setErrorMessage("Error al actualizar la tarea");
+        }
     }
 
     async function handleSubmitNewTask(event: React.SubmitEvent<HTMLFormElement>): Promise<void> {

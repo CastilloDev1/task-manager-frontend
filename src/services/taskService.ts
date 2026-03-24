@@ -29,3 +29,16 @@ export async function createTask(title: string): Promise<Task> {
     const data: Task = await response.json();
     return data;
 }
+
+export async function toggleTaskById(id: number): Promise<Task> {
+    const response = await fetch(`${TASKS_API}/tasks/${id}/toggle`,{
+        method: "PATCH",
+    });
+
+    if(!response.ok) {
+        throw new Error("Failed to toggle task");
+    }
+
+    const data: Task = await response.json();
+    return data;
+}
