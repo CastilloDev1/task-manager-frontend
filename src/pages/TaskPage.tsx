@@ -1,33 +1,34 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import type { Task } from "../types/task";
-
-const initialTasks: Task[] = [
-    { id: 1, title: "Aprender React", completed: false },
-    { id: 2, title: "Construir portafolio", completed: false },
-    { id: 3, title: "Aplicar a trabajos", completed: false },
-];
-
-const TASKS_STORAGE_KEY = "tasks-manager:tasks:v1";
+import { getTasks } from "../services/taskService";
 
 export default function TasksPage() {
-    const [ tasks, setTasks ] = useState<Task[]>(() => {
-        const savedTasks = localStorage.getItem(TASKS_STORAGE_KEY);
-        if(!savedTasks) return initialTasks;
-        
-        try {
-            return JSON.parse(savedTasks);
-        } catch {
-            return initialTasks;
-        }
-    });
-
+    const [ tasks, setTasks ] = useState<Task[]>([]);
     const [ newTaskTitle, setNewTaskTitle ] = useState("");
     const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
+    const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(()=>{
-        localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
-    }, [tasks]);
+        async function loadTasks() {
+            try {
+
+                setIsLoading(true);
+                setErrorMessage("");
+
+                const data = await getTasks();
+                setTasks(data);
+
+            } catch (error) {
+                setErrorMessage("Error al cargar las tareas");
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        void loadTasks();
+    }, []);
 
     function handleToggleCompleted( id: number): void {
         setTasks(
@@ -92,8 +93,13 @@ export default function TasksPage() {
                 <button type="button" onClick={()=> setFilter("completed")}>Completadas</button>
                 <button type="button" onClick={()=> setFilter("incomplete")}>Incompletas</button>
             </div>
-            {filteredTasks.length === 0 ? (
-                <p className="empty-tasks">No hay tareas para este filtro</p>
+
+            { isLoading ? (
+                <p className="empty-state">Cargando tareas...</p>
+            ) : errorMessage ? (
+                <p className="empty-state">{errorMessage}</p>
+            ): filteredTasks.length === 0 ? (
+                <p className="empty-state">No hay tareas para este filtro</p>
             ) : (
                 <TaskList 
                     tasks={filteredTasks} 
