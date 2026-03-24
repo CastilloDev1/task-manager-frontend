@@ -104,6 +104,15 @@ body.dark-theme .task-summary {
     color: #4b5563;
 }
 
+.error-banner {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
 .task-form {
     display: flex;
     gap: 12px;

@@ -1,8 +1,9 @@
 import type { Task } from "../types/task";
 
-const TASKS_API = "http://localhost:3000";
+const TASKS_API = import.meta.env.VITE_TASKS_API;
 
 export async function getTasks(): Promise<Task[]> {
+    
     const response = await fetch(`${TASKS_API}/tasks`);
 
     if (!response.ok) {

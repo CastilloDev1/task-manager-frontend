@@ -85,6 +85,11 @@ export default function TasksPage() {
                 Total tareas: <strong>{totalTasks}</strong> | 
                 Completadas: {" "} <strong>{completedTasks}</strong>
             </p>
+
+            { errorMessage ? (
+                <p className="error-banner">{errorMessage}</p>
+            ) : null }
+
             <form className="task-form" onSubmit={handleSubmitNewTask}>
                 <input
                     className="task-input"
@@ -104,9 +109,7 @@ export default function TasksPage() {
 
             { isLoading ? (
                 <p className="empty-state">Cargando tareas...</p>
-            ) : errorMessage ? (
-                <p className="empty-state">{errorMessage}</p>
-            ): filteredTasks.length === 0 ? (
+            ) : filteredTasks.length === 0 ? (
                 <p className="empty-state">No hay tareas para este filtro</p>
             ) : (
                 <TaskList 
