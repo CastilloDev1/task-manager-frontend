@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import type { Task } from "../types/task";
-import { getTasks, createTask, toggleTaskById } from "../services/taskService";
+import { getTasks, createTask, toggleTaskById, deleteTaskById } from "../services/taskService";
 
 export default function TasksPage() {
     const [ tasks, setTasks ] = useState<Task[]>([]);
@@ -57,8 +57,14 @@ export default function TasksPage() {
         }
     }
 
-    function handleDeleteTask(id: number): void {
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    async function handleDeleteTask(id: number): Promise<void> {
+        try {
+            setErrorMessage("");
+            await deleteTaskById(id);
+            setTasks( prevTasks => prevTasks.filter( task => task.id !== id ) );
+        } catch (error) {
+            setErrorMessage("Error al eliminar la tarea");
+        }
     }
 
     const filteredTasks = tasks.filter( (task) => {
