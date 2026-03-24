@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import type { Task } from "../types/task";
-import { getTasks } from "../services/taskService";
+import { getTasks, createTask } from "../services/taskService";
 
 export default function TasksPage() {
     const [ tasks, setTasks ] = useState<Task[]>([]);
@@ -41,18 +41,17 @@ export default function TasksPage() {
         )
     }
 
-    function handleSubmitNewTask(event: React.SubmitEvent<HTMLFormElement>): void {
+    async function handleSubmitNewTask(event: React.SubmitEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
         if (!newTaskTitle.trim()) return;
-        
-        const newTask: Task = {
-            id: Date.now(),
-            title: newTaskTitle,
-            completed: false,
-        };
-        
-        setTasks((prevTasks) => [...prevTasks, newTask]);
-        setNewTaskTitle("");
+        try {
+            setErrorMessage("");
+            const createdTask = await createTask(newTaskTitle);
+            setTasks((prevTasks) => [...prevTasks, createdTask]);
+            setNewTaskTitle("");
+        } catch (error) {
+            setErrorMessage("Error al crear la tarea");
+        }
     }
 
     function handleDeleteTask(id: number): void {
